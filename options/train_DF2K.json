@@ -1,0 +1,84 @@
+{
+  "task": "fromscratch_DF2K"
+  , "model": "plain"
+  , "gpu_ids": [0]
+  , "dist": true
+
+  , "scale": 2
+  , "n_channels": 3
+
+  , "path": {
+    "root": "DWTSRNet"
+    , "pretrained_netG": null
+    , "pretrained_netE": null
+    , "pretrained_optimizerG": null
+  }
+
+  , "datasets": {
+    "train": {
+      "name": "DF2K"
+      , "dataset_type": "sr"
+      , "dataroot_H": null
+      , "dataroot_L": null
+
+      , "H_size": 128
+
+      , "dataloader_shuffle": true
+      , "dataloader_num_workers": 2
+      , "dataloader_batch_size": 4
+    }
+    , "test_1": {
+      "name": "Set5"
+      , "dataset_type": "sr"
+      , "dataroot_H": null
+      , "dataroot_L": null
+
+    }
+    , "test_2": {
+      "name": "Set14"
+      , "dataset_type": "sr"
+      , "dataroot_H": null
+      , "dataroot_L": null
+    }
+  }
+
+  , "netG": {
+    "net_type": "DWTSRNet" 
+    , "upscale": 2
+    , "in_chans": 3
+    , "img_size": 64
+    , "window_size": 16
+    , "embed_dim": 180
+    , "depths": [6, 6, 6, 6, 6, 6] 
+    , "num_heads": [6, 6, 6, 6, 6, 6]
+    , "mlp_ratio": 2
+    , "init_type": "default"
+  }
+
+  , "train": {
+    "G_lossfn_type": "l1_wave"
+    , "G_lossfn_weight": 1.0
+
+    , "E_decay": 0.999
+
+    , "G_optimizer_type": "adam"
+    , "G_optimizer_lr": 0.0002
+    , "G_optimizer_wd": 0
+    , "G_optimizer_clipgrad": null
+    , "G_optimizer_reuse": true
+
+    , "G_scheduler_type": "MultiStepLR"
+    , "G_scheduler_milestones": [20000, 40000, 60000, 80000]
+    , "G_scheduler_gamma": 0.5
+
+    , "G_regularizer_orthstep": null
+    , "G_regularizer_clipstep": null
+
+    , "G_param_strict": false
+    , "E_param_strict": false
+
+    , "checkpoint_test": 5
+    , "checkpoint_save": 5
+    , "checkpoint_print": 100
+  }
+}
